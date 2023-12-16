@@ -1,0 +1,37 @@
+<div class="workflow-designer-object-modal">
+  <div *ngIf="!data.hideTabs" class="modal-header">
+    <ul>
+      <li *ngFor="let sheet of data.sheets"
+          (click)="switchSheet(sheet)"
+          [class.selected]="sheet.selected">
+        <i [class]="sheet.icon" *ngIf="sheet.icon"></i>
+        <span>{{ sheet.title }}</span>
+        <div class="highlight"></div>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-content">
+    <div class="filter">
+      <input type="text" [(ngModel)]="filterText" [placeholder]="placeHolder">
+    </div>
+    <div class="items">
+
+      <div *ngFor="let item of items | filterBy:['title', 'subTitle']:filterText"
+           (click)="pickItem(item)"
+           class="item" [class.selected]="item.selected">
+
+        <div class="image-wrapper">
+          <i [class]="item.icon"></i>
+        </div>
+        <div class="info-wrapper">
+          <div class="title">{{item.title}}</div>
+          <div class="sub-title" *ngIf="item.subTitle">{{item.subTitle}}</div>
+        </div>
+        <div class="module-wrapper">
+          <div class="name">{{ item.section }}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

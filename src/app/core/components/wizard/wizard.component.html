@@ -1,0 +1,65 @@
+<div class="app-wizard no-select">
+  <div *ngIf="header" class="header">{{header}}</div>
+  <div class="action-bar">
+    <div class="sidebar">
+      <div class="logo-wrapper">
+        <i class="ti ti-pyramid"></i>
+      </div>
+      <div class="info-wrapper">
+        <div class="title">Kerdar Workflow</div>
+        <div class="sub-title">2022.10.20</div>
+      </div>
+    </div>
+    <div *ngIf="showActionBar" class="content">
+      <div *ngIf="showFilter" class="search-wrapper">
+        <i class="ti ti-search"></i>
+        <input type="text" [(ngModel)]="filterText" [placeholder]="searchPlaceHolder">
+      </div>
+      <div class="actions">
+        <button *ngFor="let btn of barActions">
+          <i [class]="btn.icon"></i>
+          <span>{{btn.title}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div *ngIf="showSidebar" class="sidebar">
+      <ul>
+        <li *ngFor="let side of sideActions"
+            (click)="pickSide(side)"
+            [class.selected]="side.selected">{{side.title}}</li>
+      </ul>
+    </div>
+    <div class="content">
+
+      <div class="item"
+           *ngFor="let main of mainActions | filterBy:['title', 'subTitle']:filterText"
+           (click)="pickMain(main)">
+        <div class="image-wrapper">
+          <i [class]="main.icon"></i>
+        </div>
+        <div class="info-wrapper">
+          <div class="title">{{ main.title }}</div>
+          <div class="sub-title">{{ main.subTitle }}</div>
+        </div>
+        <div *ngIf="main.subActions?.length" class="action-wrapper">
+          <i (click)="showSettings(main, $event)" class="ti ti-settings"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #contextMenu let-actions>
+    <div class="context-menu">
+      <div *ngFor="let action of actions"
+           class="context-menu-item"
+           (click)="contextMenuAction(action, $event)">
+        <i [class]="action.icon" *ngIf="action.icon"></i>
+        <span>{{action.title}}</span>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
